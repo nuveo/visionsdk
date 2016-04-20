@@ -3,7 +3,6 @@ package visionsdk
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 
@@ -71,30 +70,26 @@ func Parse(filePath string) ([]byte, error) {
 	}
 
 	req := &vision.AnnotateImageRequest{
-		// Apply image which is encoded by base64.
 		Image: &vision.Image{
 			Content: base64.StdEncoding.EncodeToString(b),
 		},
-		// Apply features to indicate what type of image detection.
 		Features: features,
 	}
 
 	batch := &vision.BatchAnnotateImagesRequest{
 		Requests: []*vision.AnnotateImageRequest{req},
 	}
-	//
+
 	res, err := srv.Images.Annotate(batch).Do()
 	if err != nil {
 		return nil, err
 	}
 
-	// Marshal annotations from responses
 	body, err := json.MarshalIndent(res.Responses, "", "  ")
 	if err != nil {
 		log.Printf("Unable to marshal the response: %v\n", err)
 		return nil, err
 	}
-	fmt.Println(string(body))
 
 	return body, nil
 }
