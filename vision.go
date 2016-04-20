@@ -10,8 +10,6 @@ import (
 	vision "google.golang.org/api/vision/v1"
 )
 
-var features []*vision.Feature
-
 func newVisionService() (*vision.Service, error) {
 	ctx := context.TODO()
 	client, err := google.DefaultClient(ctx, vision.CloudPlatformScope)
@@ -26,30 +24,6 @@ func newVisionService() (*vision.Service, error) {
 
 	return srv, nil
 
-}
-
-func AddLabelDetection(maxResults int64) {
-	f := &vision.Feature{
-		MaxResults: maxResults,
-		Type:       "LABEL_DETECTION",
-	}
-	features = append(features, f)
-}
-
-func AddTextDetection(maxResults int64) {
-	f := &vision.Feature{
-		MaxResults: maxResults,
-		Type:       "TEXT_DETECTION",
-	}
-	features = append(features, f)
-}
-
-func AddFaceDetection(maxResults int64) {
-	f := &vision.Feature{
-		MaxResults: maxResults,
-		Type:       "FACE_DETECTION",
-	}
-	features = append(features, f)
 }
 
 func Parse(filePath string) ([]byte, error) {
