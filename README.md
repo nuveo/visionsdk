@@ -36,19 +36,20 @@ $ go test -v
 package main
 
 import (
-  "os"
+    "os"
 	"log"
-	
+
 	"github.com/nuveo/visionsdk"
 )
 
 func main() {
+    vs, _ := visionsdk.New()
 	//Set vision feature type and max_results
-	visionsdk.AddLabelDetection(10)
-	visionsdk.AddTextDetection(2)
+	vs.AddLabelDetection(10)
+	vs.AddTextDetection(2)
 
 	path := os.Getenv("GOPATH") + "/src/github.com/nuveo/visionsdk/tests/funny_lazy_cat-wallpaper-1280x1024.jpg"
-	res, err := visionsdk.Parse(path)
+	res, err := vs.Parse(path)
 	if err != nil {
 		log.Fatal(err)
 	}
