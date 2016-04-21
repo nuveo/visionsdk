@@ -13,7 +13,7 @@ import (
 type VisionObject struct {
 	features []*vision.Feature
 	service  *vision.Service
-	result   *vision.AnnotateImageResponse
+	Response *vision.AnnotateImageResponse
 }
 
 func New() (*VisionObject, error) {
@@ -64,18 +64,7 @@ func (vo *VisionObject) Parse(filePath string) ([]byte, error) {
 		return nil, err
 	}
 
-	vo.result = res.Responses[0]
-
-	//Parse annotations from responses
-	// for _, annotation := range res.Responses {
-	// 	log.Printf("%#v\n", annotation)
-	// }
-	// if annotations := res.Responses[0].ImagePropertiesAnnotation; len(annotations) > 0 {
-	// 	label := annotations[0].Description
-	// 	fmt.Printf("Found label: %s for %s\n", label, file)
-	// 	return nil
-	// }
-	// fmt.Printf("Not found label: %s\n", file)
+	vo.Response = res.Responses[0]
 
 	body, err := json.MarshalIndent(res.Responses, "", "  ")
 	if err != nil {
